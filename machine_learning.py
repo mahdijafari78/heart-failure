@@ -7,6 +7,7 @@ from sklearn import tree
 from sklearn import ensemble
 from sklearn import preprocessing
 from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 import pickle
 
 data = pd.read_csv('dataset/heart_failure_clinical_records_dataset.csv')
@@ -31,6 +32,10 @@ x_test = scaler.fit_transform(x_test)
 # x_train = pca.fit_transform(x_train)
 # x_test = pca.fit_transform(x_test)
 
+n_components = min(x_train.shape[1], len(set(y_train)) - 1)
+lda = LinearDiscriminantAnalysis(n_components=n_components)
+x_train = lda.fit_transform(x_train, y_train)
+x_test = lda.transform(x_test)
 
 def gird_search(model, parameters, name, scoring='f1'):
     model = model_selection.GridSearchCV(model, parameters, scoring=scoring)
