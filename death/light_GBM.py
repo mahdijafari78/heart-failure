@@ -1,6 +1,6 @@
 import lightgbm
-from death.data_set import (x_train, x_test, y_train, y_test, seed)
-from library import gird_search, make_pickle
+from death.data_set import (x_train, y_train, seed)
+from library import gird_search
 
 model_lightgbm = lightgbm.LGBMClassifier(class_weight='balanced', random_state=seed)
 parameters = {
@@ -13,6 +13,4 @@ parameters = {
 }
 name = 'lightgbm'
 path_pickle = f'death/pickle/{name}.pickle'
-path_predict = f'death/pickle/predict/{name}.pickle'
 gird_search(model_lightgbm, x_train, y_train, parameters, path_pickle)
-make_pickle(path_pickle, path_predict, x_test, y_test)

@@ -23,9 +23,9 @@ def report_metrics(y_true, y_predict):
     recall = metrics.recall_score(y_true, y_predict)
     return {
         'accuracy': accuracy,
-        'f1': f1,
         'precision': precision,
         'recall': recall,
+        'f1': f1,
     }
 
 
@@ -53,16 +53,18 @@ def normal_data(x_train, x_test, operation='StandardScaler'):
 # x_test = lda.transform(x_test)
 
 class ReportModel:
-    def __init__(self, path, y_test, export_name):
+    def __init__(self, path, x_test, y_test, export_name):
         self.path = os.path.join(os.getcwd(), path)
+        self.x_test = x_test
         self.y_test = y_test
         self.export_name = export_name
 
     report_model = {}
 
-    def make_report(self, name):
-        predict = pickle.load(open(f'{self.path}/{name}', 'rb'))
-        self.report_model[name.split('.')[0]] = report_metrics(self.y_test, predict)
+    def make_report(self, path_model):
+        model = os.path.join(self.path, path_model)
+        predict = read_pickle(model, self.x_test, self.y_test)
+        self.report_model[path_model.split('.')[0]] = report_metrics(self.y_test, predict)
 
     def make_chart(self):
         for name, value in self.report_model.items():
@@ -74,10 +76,10 @@ class ReportModel:
         return plt
 
     def __call__(self, *args, **kwargs):
-        list_predict = os.listdir(self.path)
-        if list_predict:
-            for predict in list_predict:
-                self.make_report(predict)
+        list_pickle = os.listdir(self.path)
+        if list_pickle:
+            for model in list_pickle:
+                self.make_report(model)
             data = pd.DataFrame(self.report_model)
             output_directory = 'output'
             output_file_name = f'{self.export_name}-{datetime.datetime.now().date()}'
@@ -88,13 +90,11 @@ class ReportModel:
             raise 'file pickle does not exist'
 
 
-def make_pickle(m, p, x_test, y_test):
-    model_ = pickle.load(open(m, 'rb'))
+def read_pickle(model_pickle, x_test, y_test):
+    model_ = pickle.load(open(model_pickle, 'rb'))
     predict_ = model_.predict(x_test)
-    with open(p, 'wb') as f:
-        pickle.dump(predict_, f)
-
     for index, element in enumerate(predict_):
         print(element, y_test[index])
     print('-' * 6)
     print("  o\n /|\ \n / \ \n^^^^^^^")
+    return predict_
