@@ -87,7 +87,7 @@ class ReportModel:
             data.to_csv(f'{output_path}.csv')
             self.make_chart().savefig(f'{output_path}.png')
         else:
-            raise 'file pickle does not exist'
+            print('file pickle does not exist "please first train model"')
 
 
 def read_pickle(model_pickle, x_test, y_test):

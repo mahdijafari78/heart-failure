@@ -1,17 +1,16 @@
-from death import logistic_regression
-from death import KNN
-from death import svm
-from death import decision_tree
-from death import random_forest
-from death import light_GBM
-from death import report
+from death.model import decision_tree_model
+from death.model import knn_model
+from death.model import light_gbm_model
+from death.model import logistic_regression_model
+from death.model import random_forest_model
+from death.model import svm_model
+
 
 __all__ = [
-    'logistic_regression',
-    'svm',
-    'KNN',
-    'decision_tree',
-    'random_forest',
-    'light_GBM',
-    'report'
+    'logistic_regression_model',
+    'svm_model',
+    'knn_model',
+    'decision_tree_model',
+    'random_forest_model',
+    'light_gbm_model',
 ]
