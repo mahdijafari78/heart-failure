@@ -64,7 +64,9 @@ class ReportModel:
     def make_report(self, path_model):
         model = os.path.join(self.path, path_model)
         predict = read_pickle(model, self.x_test, self.y_test)
-        self.report_model[path_model.split('.')[0]] = report_metrics(self.y_test, predict)
+        name = path_model.split('.')[0]
+        print(f'predict:{name}')
+        self.report_model[name] = report_metrics(self.y_test, predict)
 
     def make_chart(self):
         for name, value in self.report_model.items():
