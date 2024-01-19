@@ -1,17 +1,22 @@
 if __name__ == '__main__':
-    def train_model():
-        import death
+    def train_model(run_file):
+        if run_file == 'disease':
+            import disease as file
+        else:
+            import death as file
 
         model_select = {
-            'light_gbm': death.light_gbm_model,
-            'knn': death.knn_model,
-            'svm': death.svm_model,
-            'logistic_regression': death.logistic_regression_model,
-            'decision_tree': death.decision_tree_model,
-            'random_forest': death.random_forest_model,
+            'light_gbm': file.light_gbm_model,
+            'knn': file.knn_model,
+            'svm': file.svm_model,
+            'logistic_regression': file.logistic_regression_model,
+            'decision_tree': file.decision_tree_model,
+            'random_forest': file.random_forest_model,
+            'ada_boost_model': file.ada_boost_model,
         }
         list_model = []
-        print('(light_gbm|knn|svm|logistic_regression|decision_tree|random_forest|*)')
+        print_name = '|'.join(model_select.keys()) + '|*'
+        print(print_name)
         while len(list_model) < 6:
             model_name = input('select model:')
             if model_name in list(model_select.keys()) or model_name == "*":
@@ -33,7 +38,7 @@ if __name__ == '__main__':
                 print('-' * 10)
                 print('please write the names of the models correctly')
                 print('select model')
-                print('(light_gbm|knn|svm|logistic_regression|decision_tree|random_forest|all)')
+                print(print_name)
         if list_model:
             print('/' * 10)
             print('start train models')
@@ -42,8 +47,11 @@ if __name__ == '__main__':
             print('done')
 
 
-    def run_report():
-        import death.report
+    def run_report(run_file):
+        if run_file == 'disease':
+            import disease.report
+        else:
+            import death.report
 
 
     def run():
@@ -51,15 +59,21 @@ if __name__ == '__main__':
             'train_model': train_model,
             'report': run_report
         }
+        select_dic = ['disease', 'death']
+        print('disease,death')
+        select_file = input('select file:')
+        if select_file not in select_dic:
+            print('Choose the right file')
+            return None
         print('run (train_model|report|both)')
         run_ = input('select run:')
         if run_ == 'both':
             for i in dic.values():
-                i()
+                i(select_file)
         else:
             x = dic.get(run_)
             if x:
-                x()
+                x(select_file)
 
 
     run()

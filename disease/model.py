@@ -1,15 +1,15 @@
 from sklearn import tree
 from death.data_set import (x_train, y_train, seed)
 from library import gird_search
-from sklearn import neighbors, svm, linear_model, model_selection
+from sklearn import neighbors, svm, linear_model,model_selection
 from sklearn import ensemble
 import lightgbm
 
-base_name = 'death'
+base_name = 'disease'
 
 
 def ada_boost_model():
-    model_decision_tree = tree.DecisionTreeClassifier(random_state=seed,
+    model_decision_tree = tree.DecisionTreeClassifier(class_weight='balanced',random_state=seed,
                                                       max_depth=None)
     model_ada_boost = ensemble.AdaBoostClassifier(model_decision_tree)
     parameters = {
@@ -20,7 +20,7 @@ def ada_boost_model():
     name = 'ada_boost'
     path_pickle = f'{base_name}/pickle/{name}.pickle'
     print(name)
-    gird_search(model_ada_boost, x_train, y_train, parameters, path_pickle, scoring='roc_auc')
+    gird_search(model_ada_boost, x_train, y_train, parameters, path_pickle, scoring='f1')
 
 
 def decision_tree_model():
