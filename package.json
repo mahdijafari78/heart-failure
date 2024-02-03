@@ -1,0 +1,22 @@
+{
+  "death": {
+    "path_dataset": "dataset/heart_failure_clinical_records_dataset.csv",
+    "data_y": "DEATH_EVENT",
+    "data_x_drop" : "DEATH_EVENT",
+    "test_size" : 0.2,
+    "shuffle" : true,
+    "random_state": 42,
+    "normal_data": "StandardScaler"
+
+  },
+    "disease": {
+    "path_dataset": "dataset/heart.csv",
+    "data_y": "target",
+    "data_x_drop" : "target",
+    "test_size" : 0.2,
+    "shuffle" : true,
+    "random_state": 42,
+    "normal_data": "StandardScaler"
+
+  }
+}

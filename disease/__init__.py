@@ -4,6 +4,7 @@ from disease.model import light_gbm_model
 from disease.model import logistic_regression_model
 from disease.model import random_forest_model
 from disease.model import svm_model
+from disease.model import ada_boost_model
 
 
 __all__ = [
@@ -13,4 +14,5 @@ __all__ = [
     'decision_tree_model',
     'random_forest_model',
     'light_gbm_model',
+    'ada_boost_model'
 ]

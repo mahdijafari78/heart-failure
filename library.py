@@ -4,14 +4,68 @@ import pickle
 import pandas as pd
 from matplotlib import pyplot as plt
 from sklearn import model_selection, metrics, preprocessing
+import numpy as np
+import json
+
+
+class StartDataset:
+    package = None
+    x_train = None
+    x_test = None
+    y_train = None
+    y_test = None
+    seed = 42
+
+    def __init__(self, file, n=True):
+        self.file = file
+        self.n = n
+
+    def get_package(self):
+        path_json = os.path.join(os.getcwd(), 'package.json')
+        with open(path_json, 'r') as file_json:
+            package = json.load(file_json)
+        if package.get(self.file) is None:
+            raise 'there is no such config'
+        self.package = package.get(self.file)
+
+    def get_dataset(self):
+        if self.package is not None:
+            self.seed = self.package.get('random_state', self.seed)
+            path = os.path.join(os.getcwd(), self.package.get('path_dataset'))
+            data = pd.read_csv(path)
+            data_x = np.array(data.drop(columns=self.package.get('data_x_drop')))
+            data_y = np.array(data[self.package.get('data_y')])
+            self.x_train, self.x_test, self.y_train, self.y_test = model_selection.train_test_split(data_x, data_y,
+                                                                                                    test_size=self.package.get(
+                                                                                                        'test_size',
+                                                                                                        0.2),
+                                                                                                    random_state=self.seed,
+                                                                                                    shuffle=self.package.get(
+                                                                                                        'shuffle',
+                                                                                                        True),
+                                                                                                    stratify=data_y)
+            if self.n:
+                self.normal()
+        else:
+            print('pls run function get_package')
+
+    def normal(self):
+        if self.package is not None:
+            self.x_train, self.x_test = normal_data(self.x_train, self.x_test, self.package.get('normal_data'))
+        else:
+            print('pls run function get_package')
 
 
 def gird_search(model, x_train, y_train, parameters, path, scoring='f1'):
     model = model_selection.GridSearchCV(model, parameters, scoring=scoring)
+    name_base = path.split('/')[0]
     path = os.path.join(os.getcwd(), path)
     model.fit(x_train, y_train)
     with open(path, 'wb') as f:
         pickle.dump(model, f)
+    beat_path = os.path.join(os.getcwd(), 'output')
+    with open(f'{beat_path}/{name_base}-best-params.txt', 'a') as file:
+        file.write(f'{os.path.basename(path).split(".")[0]}:{model.best_params_}\n')
     print(f'best_params_: {model.best_params_}')
     print(f'best_score: {model.best_score_:.4f}')
 
@@ -26,6 +80,7 @@ def report_metrics(y_true, y_predict):
         'precision': precision,
         'recall': recall,
         'f1': f1,
+
     }
 
 

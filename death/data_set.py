@@ -1,15 +1,7 @@
-import pandas as pd
-import numpy as np
-from sklearn import model_selection
-from library import normal_data
-import os
+from library import StartDataset
 
-seed = 42
-path = os.path.join(os.getcwd(), 'dataset/heart_failure_clinical_records_dataset.csv')
-data = pd.read_csv(path)
-data_x = np.array(data.drop(columns='DEATH_EVENT'))
-data_y = np.array(data['DEATH_EVENT'])
-x_train, x_test, y_train, y_test = model_selection.train_test_split(data_x, data_y, test_size=0.2, random_state=42,
-                                                                    shuffle=True, stratify=data_y)
-
-x_train, x_test = normal_data(x_train, x_test)
+dataset = StartDataset('death', n=True)
+dataset.get_package()
+dataset.get_dataset()
+x_train, x_test, y_train, y_test = dataset.x_train, dataset.x_test, dataset.y_train, dataset.y_test
+seed = dataset.seed

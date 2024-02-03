@@ -1,7 +1,7 @@
 from sklearn import tree
 from death.data_set import (x_train, y_train, seed)
 from library import gird_search
-from sklearn import neighbors, svm, linear_model, model_selection
+from sklearn import neighbors, svm, linear_model
 from sklearn import ensemble
 import lightgbm
 
