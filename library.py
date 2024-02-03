@@ -55,6 +55,10 @@ class StartDataset:
         else:
             print('pls run function get_package')
 
+    def __call__(self):
+        self.get_package()
+        self.get_dataset()
+
 
 def gird_search(model, x_train, y_train, parameters, path, scoring='f1'):
     model = model_selection.GridSearchCV(model, parameters, scoring=scoring)
