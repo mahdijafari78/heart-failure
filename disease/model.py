@@ -5,7 +5,7 @@ from sklearn import neighbors, svm, linear_model,model_selection
 from sklearn import ensemble
 import lightgbm
 
-base_name = 'disease'
+base_name = 'disease/pickle/'
 
 
 def ada_boost_model():
@@ -18,7 +18,7 @@ def ada_boost_model():
         "n_estimators": [1, 2],
     }
     name = 'ada_boost'
-    path_pickle = f'{base_name}/pickle/{name}.pickle'
+    path_pickle = base_name + f'{name}.pickle'
     print(name)
     gird_search(model_ada_boost, x_train, y_train, parameters, path_pickle, scoring='f1')
 
@@ -30,7 +30,7 @@ def decision_tree_model():
         "min_samples_leaf": [1, 5, 10, 20]
     }
     name = 'decision_tree'
-    path_pickle = f'{base_name}/pickle/{name}.pickle'
+    path_pickle = base_name + f'{name}.pickle'
     print(name)
     gird_search(model_decision_tree, x_train, y_train, parameters, path_pickle)
 
@@ -42,7 +42,7 @@ def knn_model():
         "weights": ['uniform', 'distance'],
     }
     name = 'knn'
-    path_pickle = f'{base_name}/pickle/{name}.pickle'
+    path_pickle = base_name + f'{name}.pickle'
     print(name)
     gird_search(model_knn, x_train, y_train, parameters, path_pickle)
 
@@ -55,7 +55,7 @@ def random_forest_model():
         "min_samples_leaf": [1, 5, 10, 20]
     }
     name = 'random_forest'
-    path_pickle = f'{base_name}/pickle/{name}.pickle'
+    path_pickle = base_name + f'{name}.pickle'
     print(name)
     gird_search(model_random_forest, x_train, y_train, parameters, path_pickle)
 
@@ -68,7 +68,7 @@ def svm_model():
         'gamma': ['scale', 'auto'],
     }
     name = 'svm'
-    path_pickle = f'{base_name}/pickle/{name}.pickle'
+    path_pickle = base_name + f'{name}.pickle'
     print(name)
     gird_search(model_svm, x_train, y_train, parameters, path_pickle)
 
@@ -84,7 +84,7 @@ def light_gbm_model():
         'colsample_bytree': [0.5, 0.75, 1.]
     }
     name = 'lightgbm'
-    path_pickle = f'{base_name}/pickle/{name}.pickle'
+    path_pickle = base_name + f'{name}.pickle'
     print(name)
     gird_search(model_lightgbm, x_train, y_train, parameters, path_pickle)
 
@@ -95,6 +95,6 @@ def logistic_regression_model():
         'C': [0.01, 0.1, 1],
     }
     name = 'logistic_regression'
-    path_pickle = f'{base_name}/pickle/{name}.pickle'
+    path_pickle = base_name + f'{name}.pickle'
     print(name)
     gird_search(model_logistic_regression, x_train, y_train, parameters, path_pickle)
