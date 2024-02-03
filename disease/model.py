@@ -1,7 +1,7 @@
 from sklearn import tree
 from death.data_set import (x_train, y_train, seed)
 from library import gird_search
-from sklearn import neighbors, svm, linear_model,model_selection
+from sklearn import neighbors, svm, linear_model, model_selection
 from sklearn import ensemble
 import lightgbm
 
@@ -9,7 +9,7 @@ base_name = 'disease/pickle/'
 
 
 def ada_boost_model():
-    model_decision_tree = tree.DecisionTreeClassifier(class_weight='balanced',random_state=seed,
+    model_decision_tree = tree.DecisionTreeClassifier(class_weight='balanced', random_state=seed,
                                                       max_depth=None)
     model_ada_boost = ensemble.AdaBoostClassifier(model_decision_tree)
     parameters = {
